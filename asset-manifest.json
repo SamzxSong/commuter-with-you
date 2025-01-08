@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/commuter-with-you/static/css/main.fca27c5e.css",
-    "main.js": "/commuter-with-you/static/js/main.50f4604d.js",
+    "main.js": "/commuter-with-you/static/js/main.18a23385.js",
     "index.html": "/commuter-with-you/index.html",
     "main.fca27c5e.css.map": "/commuter-with-you/static/css/main.fca27c5e.css.map",
-    "main.50f4604d.js.map": "/commuter-with-you/static/js/main.50f4604d.js.map"
+    "main.18a23385.js.map": "/commuter-with-you/static/js/main.18a23385.js.map"
   },
   "entrypoints": [
     "static/css/main.fca27c5e.css",
-    "static/js/main.50f4604d.js"
+    "static/js/main.18a23385.js"
   ]
 }
