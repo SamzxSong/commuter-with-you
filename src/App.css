@@ -1,0 +1,46 @@
+/* Center the Login Page */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e; /* Dark theme background */
+  color: #ffffff; /* Default text color for dark theme */
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Login Container */
+.login-container {
+  text-align: center;
+}
+
+.login-container h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+/* Login Buttons */
+.login-button {
+  background-color: #0084ff; /* Primary blue color */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+.login-button:hover {
+  background-color: #005bb5; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.login-button:active {
+  transform: scale(1); /* Reset zoom when clicked */
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ChatWindow from "./ChatWindow";
+import "./App.css";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -32,10 +33,14 @@ const App = () => {
           <ChatWindow currentUser={currentUser} />
         </div>
       ) : (
-        <div>
+        <div className="login-container">
           <h1>Login</h1>
-          <button onClick={() => handleLogin("Helen")}>Login as Helen</button>
-          <button onClick={() => handleLogin("Sam")}>Login as Sam</button>
+          <button className="login-button" onClick={() => handleLogin("Helen")}>
+            Login as Helen
+          </button>
+          <button className="login-button" onClick={() => handleLogin("Sam")}>
+            Login as Sam
+          </button>
         </div>
       )}
     </div>
