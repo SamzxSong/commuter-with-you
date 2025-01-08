@@ -116,7 +116,11 @@ const ChatWindow = ({ currentUser }) => {
               <div className="chat-bubble">
                 <strong>{msg.sender}</strong>
                 <p>{msg.text}</p>
-                <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                {/* <small>
+                  {msg.timestamp
+                    ? new Date(msg.timestamp).toLocaleTimeString()
+                    : "No timestamp"}
+                </small> */}
               </div>
             </div>
           ))
