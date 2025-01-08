@@ -1,0 +1,127 @@
+/* Chat Window Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e; /* Lighter dark theme background */
+  color: #ffffff; /* Default text color for dark theme */
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 100vh; /* Stretch chat box from top to bottom */
+  border: 1px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #1e1e1e; /* Darker background for chat box */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+}
+
+/* Header */
+.chat-header {
+  background-color: #0084ff;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px solid #333;
+}
+
+/* Messages Area */
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  background-color: #121212; /* Matches the dark theme */
+  overflow-y: auto;
+  color: #f1f1f1; /* Light text for readability */
+}
+
+/* Chat Message Container */
+.chat-message {
+  display: flex;
+  align-items: flex-end;
+  margin: 10px 0; /* Space between messages */
+}
+
+/* Sent Messages (Align Right) */
+.chat-message.sent {
+  flex-direction: row-reverse; /* Place avatar on the right */
+  /* justify-content: flex-end; */
+}
+
+/* Received Messages (Align Left) */
+.chat-message.received {
+  flex-direction: row; /* Place avatar on the left */
+  justify-content: flex-start;
+}
+
+/* Avatar Styling */
+.avatar {
+  width: 30px; /* Smaller avatar size */
+  height: 30px;
+  border-radius: 50%; /* Make the avatar circular */
+  margin: 0 8px; /* Space around the avatar */
+}
+
+/* Chat Bubble */
+.chat-bubble {
+  max-width: 70%; /* Bubble width for both sent and received messages */
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #252525; /* Dark bubble for received messages */
+  color: #f1f1f1;
+  font-size: 14px; /* Adjust font size */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  word-wrap: break-word; /* Prevent text overflow */
+  overflow-wrap: break-word;
+}
+
+/* Sent Message Bubble */
+.chat-message.sent .chat-bubble {
+  background-color: #0084ff;
+  color: white;
+}
+
+/* Input Area */
+.chat-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #333;
+  background-color: #1e1e1e; /* Darker input background */
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 14px;
+  background-color: #252525; /* Dark input field */
+  color: #f1f1f1; /* Light text */
+}
+
+.chat-input input::placeholder {
+  color: #888; /* Placeholder text */
+}
+
+.chat-input button {
+  background-color: #0084ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.chat-input button:hover {
+  background-color: #005bb5;
+}
