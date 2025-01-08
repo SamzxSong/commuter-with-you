@@ -1,40 +1,56 @@
-import React, { useState, useEffect } from "react";
-import {
-  collection,
-  addDoc,
-  query,
-  where,
-  onSnapshot,
-  orderBy,
-} from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import React, { useState, useEffect, useRef } from "react";
 import "./ChatWindow.css";
 
 const ChatWindow = ({ currentUser }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const messagesEndRef = useRef(null);
   const otherUser = currentUser === "Helen" ? "Sam" : "Helen";
 
-  // Fetch messages in real-time
+  // Fetch messages from the proxy server
   useEffect(() => {
-    const q = query(
-      collection(db, "messages"),
-      where("participants", "array-contains", currentUser),
-      orderBy("timestamp", "asc")
-    );
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch(
+          "https://your-proxy-server.com/getMessages",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const fetchedMessages = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMessages(fetchedMessages); // Update messages in real-time
-    });
+        if (!response.ok) {
+          throw new Error("Failed to fetch messages");
+        }
 
-    return () => unsubscribe(); // Cleanup the listener when the component unmounts
+        const data = await response.json();
+        const filteredMessages = data.filter((msg) =>
+          msg.participants.includes(currentUser)
+        );
+        setMessages(filteredMessages);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching messages:", err);
+        setError("Failed to load messages. Please try again.");
+        setLoading(false);
+      }
+    };
+
+    fetchMessages();
   }, [currentUser]);
 
-  // Send a message
+  // Scroll to the latest message
+  useEffect(() => {
+    if (!loading) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, loading]);
+
+  // Send a message via the proxy server
   const handleSendMessage = async () => {
     if (!message.trim()) return;
 
@@ -42,15 +58,31 @@ const ChatWindow = ({ currentUser }) => {
       sender: currentUser,
       receiver: otherUser,
       text: message.trim(),
-      timestamp: new Date(),
       participants: [currentUser, otherUser],
     };
 
     try {
-      await addDoc(collection(db, "messages"), newMessage);
+      const response = await fetch(
+        "https://your-proxy-server.com/sendMessage",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMessage),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
       setMessage("");
-    } catch (error) {
-      console.error("Error sending message: ", error);
+      // Update messages immediately after sending
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    } catch (err) {
+      console.error("Error sending message:", err);
+      alert("Failed to send message. Please try again.");
     }
   };
 
@@ -58,30 +90,38 @@ const ChatWindow = ({ currentUser }) => {
     <div className="chat-window">
       <div className="chat-header">Chat with {otherUser}</div>
       <div className="chat-messages">
-        {messages.map((msg, index) => (
-          <div
-            key={msg.id}
-            className={`chat-message ${
-              msg.sender === currentUser ? "sent" : "received"
-            }`}
-          >
-            {/* Avatar */}
-            <img
-              src={
-                msg.sender === "Helen"
-                  ? "/commuter-with-you/avatars/yier.png" // Path to Helen's avatar
-                  : "/commuter-with-you/avatars/bubu.png" // Path to Sam's avatar
-              }
-              alt={`${msg.sender}'s avatar`}
-              className="avatar"
-            />
-            {/* Chat Bubble */}
-            <div className="chat-bubble">
-              <strong>{msg.sender}</strong>
-              <p>{msg.text}</p>
+        {error ? (
+          <div className="error-message">{error}</div>
+        ) : loading ? (
+          <div className="loading-spinner">Loading...</div>
+        ) : (
+          messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`chat-message ${
+                msg.sender === currentUser ? "sent" : "received"
+              }`}
+            >
+              {/* Avatar */}
+              <img
+                src={
+                  msg.sender === "Helen"
+                    ? "/commuter-with-you/avatars/yier.png" // Path to Helen's avatar
+                    : "/commuter-with-you/avatars/bubu.png" // Path to Sam's avatar
+                }
+                alt={`${msg.sender}'s avatar`}
+                className="avatar"
+              />
+              {/* Chat Bubble */}
+              <div className="chat-bubble">
+                <strong>{msg.sender}</strong>
+                <p>{msg.text}</p>
+                <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
+        <div ref={messagesEndRef}></div> {/* Scroll anchor */}
       </div>
       <div className="chat-input">
         <input
