@@ -14,7 +14,7 @@ const ChatWindow = ({ currentUser }) => {
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          "https://your-proxy-server.com/getMessages",
+          "https://proxy-server-1-kpxm.onrender.com/getMessages",
           {
             method: "GET",
             headers: {
@@ -63,7 +63,7 @@ const ChatWindow = ({ currentUser }) => {
 
     try {
       const response = await fetch(
-        "https://your-proxy-server.com/sendMessage",
+        "https://proxy-server-1-kpxm.onrender.com/sendMessage",
         {
           method: "POST",
           headers: {
