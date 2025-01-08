@@ -69,8 +69,8 @@ const ChatWindow = ({ currentUser }) => {
             <img
               src={
                 msg.sender === "Helen"
-                  ? "/avatars/yier.png" // Path to Helen's avatar
-                  : "/avatars/bubu.png" // Path to Sam's avatar
+                  ? "/commuter-with-you/avatars/yier.png" // Path to Helen's avatar
+                  : "/commuter-with-you/avatars/bubu.png" // Path to Sam's avatar
               }
               alt={`${msg.sender}'s avatar`}
               className="avatar"
